@@ -20,19 +20,18 @@ class Chat extends Component {
 
     this.socket.onmessage = e => {
       // on receiving a message, add it to the list of messages
-      console.log(e.data)
       const message = JSON.parse(e.data)
+      const date = new Date(message[0].time)
+      console.log(`${date}: ${message[0].from} - ${message[0].message}`)
       this.addMessage(message)
     }
 
     this.socket.onclose = () => {
       console.log('disconnected')
       // automatically try to reconnect on connection loss
-      console.log(1)
       this.setState({
         socket: new WebSocket(URL),
       })
-      console.log(2)
     }
   }
 
